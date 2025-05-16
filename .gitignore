@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook checkpoints (if you use notebooks)
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# Audio files (optional - remove if you want to track them)
+*.wav
+*.mp3
+
+# Plots and figures (optional - adjust to your folder name)
+plots/
+*.png
+*.jpg
+*.jpeg
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Log or temporary files
+*.log
+*.tmp
