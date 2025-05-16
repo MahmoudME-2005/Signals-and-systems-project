@@ -28,7 +28,7 @@ while(again):
     # Read audio
     loop = True
     while (loop):
-        Response = input("Would you like to use a specific audio file or the default one? (S/D)").lower()
+        Response = input("Would you like to use a specific audio file or the default one?(S/D): ").lower()
         if (Response == "s"):
             filename = input("Enter the path to the audio file: ")
             loop = False
