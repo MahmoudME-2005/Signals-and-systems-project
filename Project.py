@@ -102,7 +102,7 @@ while(again):
     input("Press enter to continue.")
 
     # Applying butterworth low pass filter
-    cutoff_freq = input("Specify the cutoff frequency(recommended: 2000): ")
+    cutoff_freq = int(input("Specify the cutoff frequency(recommended: 2000): "))
     nyquist = 0.5 * td_freq
     normal_cutoff = cutoff_freq / nyquist
 
