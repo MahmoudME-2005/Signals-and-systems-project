@@ -26,7 +26,17 @@ again = True
 
 while(again):
     # Read audio
-    filename = input("Enter the path to the audio file you want to process: ")
+    loop = True
+    while (loop):
+        Response = input("Would you like to use a specific audio file or the default one? (S/D)").lower()
+        if (Response == "s"):
+            filename = input("Enter the path to the audio file: ")
+            loop = False
+        elif (Response == "d"):
+            filename = "Audio\Main inputs\Input.wav"
+            loop = False
+        else:
+            print("Please enter S for specific audio file or D for default audio file.")
     td_mags, td_freq = sf.read(filename)
 
     # Adjusting the time axis values
@@ -35,33 +45,40 @@ while(again):
     time = np.linspace(0, duration, len(td_mags))
 
     # Playing the signal in time domain
-    response1 = input("Would you like to listen to the input audio file?(Y/N): ").lower()
-    if(response1 == "y"):
-        sd.play(td_mags,td_freq)
+    loop = True
+    while (loop):
+        response = input("Would you like to listen to the input audio file?(Y/N): ").lower()
+        if(response == "y" or response == "yes"):
+            sd.play(td_mags,td_freq)
 
-        # Plotting the time domain signal using the python library matplotlib
-        plt.plot(time, td_mags)
-        plt.xlabel("Time in seconds")
-        plt.ylabel("Amplitude")
-        plt.title("Time Domain Signal")
-        plt.grid()
-        plt.show()
+            # Plotting the time domain signal using the python library matplotlib
+            plt.plot(time, td_mags)
+            plt.xlabel("Time in seconds")
+            plt.ylabel("Amplitude")
+            plt.title("Time Domain Signal")
+            plt.grid()
+            plt.show()
 
-        sd.wait()
-    else:
-        # Plotting the time domain signal using the python library matplotlib
-        plt.plot(time, td_mags)
-        plt.xlabel("Time in seconds")
-        plt.ylabel("Amplitude")
-        plt.title("Time Domain Signal")
-        plt.grid()
-        plt.show()
+            sd.wait()
+            loop = False
+        elif (response == "n" or response == "no"):
+            # Plotting the time domain signal using the python library matplotlib
+            plt.plot(time, td_mags)
+            plt.xlabel("Time in seconds")
+            plt.ylabel("Amplitude")
+            plt.title("Time Domain Signal")
+            plt.grid()
+            plt.show()
+            loop = False
+        else:
+            print("Please enter Y if you want to listen or N if not.")
+
 
     # Signal's energy calculation in time domain
     Energy_timedomain = calculate_energy_timedomain(td_mags,data_len)
     print("-" * 80 + "\nEnergy calculations in both domains:\n")
     print(f"Time domain energy of the signal: {Energy_timedomain}")
-    input()
+    input("Press enter to continue.")
 
     # Trasforming the signal from time domain to freq domain using fft algorithim which is
     # built into the python library numpy
@@ -81,8 +98,8 @@ while(again):
     # Calculating the energy of the signal in freq domain
     Energy_freqdomain = calculate_energy_freqdomain(fd_mags,data_len)
     print(f"Freq domain Energy of the signal: {Energy_freqdomain}\n")
-    print(f"The differnce between energies in both domains: {Energy_timedomain - Energy_freqdomain}\nAs we can see they are almost equal as the difference is only due to floating point errors\n" + "-" * 80)
-    input()
+    print(f"The differnce between energies in both domains: {Energy_timedomain - Energy_freqdomain}\nAs we can see they are almost equal as the difference is only due to floating point errors")
+    input("Press enter to continue.")
 
     # Applying butterworth low pass filter
     cutoff_freq = 1500
@@ -96,27 +113,34 @@ while(again):
     td_filtered_mags = signal.filtfilt(b, a, td_mags)
 
     # Playing the filtered signal in time domain
-    response2 = input("Would you like to listen to the filtered audio file?(Y/N): ").lower()
-    if(response2 == "y"):
-        sd.play(td_filtered_mags,td_freq)
+    loop = True
+    while (loop):
+        response = input("-" * 80 + "\nWould you like to listen to the filtered audio file?(Y/N): ").lower()
+        if(response == "y" or response == "yes"):
+            sd.play(td_filtered_mags,td_freq)
 
-        # Plot the filtered signal in time domain
-        plt.plot(time, td_filtered_mags)
-        plt.title("Filtered Signal (Time Domain)")
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude")
-        plt.grid()
-        plt.show()
+            # Plot the filtered signal in time domain
+            plt.plot(time, td_filtered_mags)
+            plt.title("Filtered Signal (Time Domain)")
+            plt.xlabel("Time (s)")
+            plt.ylabel("Amplitude")
+            plt.grid()
+            plt.show()
 
-        sd.wait()
-    else:
-        # Plot the filtered signal in time domain
-        plt.plot(time, td_filtered_mags)
-        plt.title("Filtered Signal (Time Domain)")
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude")
-        plt.grid()
-        plt.show()
+            sd.wait()
+            loop = False
+        elif (response == "n" or response == "no"):
+            # Plot the filtered signal in time domain
+            plt.plot(time, td_filtered_mags)
+            plt.title("Filtered Signal (Time Domain)")
+            plt.xlabel("Time (s)")
+            plt.ylabel("Amplitude")
+            plt.grid()
+            plt.show()
+            loop = False
+        else:
+            print("Pleas enter Y if you want to listen or N if not.")
+
 
     # Transforming the filtered signal in time domain to the frequency domain
     fd_filtered_mags = np.fft.fft(td_filtered_mags)
@@ -132,14 +156,20 @@ while(again):
 
     # Saving the processed audio file after applying the filter
     output_file_name = input("Enter the name for the output audio file: ")
-    output_file_path = f"E:\ASU\Signals and systems ASU\Project\Resources\Main outputs\{output_file_name}.WAV"
+    output_file_path = f"Audio\Main outputs\{output_file_name}.WAV"
     sf.write(output_file_path, td_filtered_mags, td_freq)
-    print("\n" + "-" * 80 + "\n\nThe processed audio file was successfuly saved on your drive under the name " + output_file_name + "\n\n" + "-" * 80)
+    print("\n" + "-" * 80 + "\n\nThe processed audio file was successfuly saved on your drive under the name " + output_file_name + " in the Main outputs folder\n\n" + "-" * 80)
 
-    response = input("would you like to try another audio file?(Y/N): ").lower()
+    loop = True
+    while (loop):
+        response = input("would you like to try another audio file?(Y/N): ").lower()
 
-    if(response == "y"):
-        again = True
-    else:
-        again = False
-        print("Thank you for using our app.")
+        if(response == "y" or response == "yes"):
+            again = True
+            loop = False
+        elif (response == "n" or response == "no"):
+            again = False
+            print("Thank you for using our app.")
+            loop = False
+        else:
+            print("Press enter Y if you want to try another file or N if not.")
