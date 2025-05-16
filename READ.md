@@ -11,7 +11,7 @@ This is a Python-based project developed for the **ECE251: Signals and Systems F
 
 ## 🛠️ Technologies Used
 
-- Python 3.x
+- Python 3
 - NumPy
 - SciPy
 - Matplotlib
